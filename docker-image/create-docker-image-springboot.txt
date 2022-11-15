@@ -1,0 +1,46 @@
+ 1. apt update
+ 2. apt install docker.io
+ 3. apt install docker-compose
+ 4. docker images
+ 5. docker pull postgres
+ 6. docker pull openjdk:8
+ 7. docker images
+ 8. git clone https://github.com/adititandel/Socialmedia
+ 9. ls
+ 10. cd Socialmedia/
+ 11. ls
+ 12. vi Dockerfile
+
+	FROM openjdk:8
+	ADD /*.jar socialmedia-0.0.1-SNAPSHOT.jar
+	EXPOSE 8080
+	ENTRYPOINT ["java", "-jar","/socialmedia-0.0.1-SNAPSHOT.jar"]
+
+ 13. vi docker-compose.yml
+
+version: '2'
+services:
+        app:
+                image: 'socialmedia'
+                build:
+                        context: .
+                container_name: app
+                ports:
+                        - 8080:8080
+                environment:
+                        - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
+                        - SPRING_DATASOURCE_USERNAME=compose-postgres
+                        - SPRING_DATASOURCE_PASSWORD=compose-postgres
+                        - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+
+        db:
+                image: 'postgres'
+                container_name: db
+                environment:
+                        - POSTGRES_USER=compose-postgres
+                        - POSTGRES_PASSWORD=compose-postgres
+
+ 14. docker compose up
+ 15. docker-compose up
+ 16. docker images
